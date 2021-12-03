@@ -1,0 +1,39 @@
+builds:
+  - id: "default"
+    binary: smartping
+    main: ./src/smartping.go
+    targets:
+      - linux_amd64
+    ldflags:
+      - "-linkmode external -extldflags '-static' -s -w"
+
+dockers:
+  - image_templates:
+      - bitsf/smartping
+    extra_files:
+      - conf
+      - db
+      - html
+
+changelog:
+  filters:
+    exclude:
+      - '^docs'
+      - '^test'
+      - '^feat'
+      - '^chore'
+      - '^Merge '
+      - '[Ty]ypo'
+
+release:
+  draft: true
+  prerelease: auto
+
+archives:
+  - id: smartping
+    builds:
+      - default
+    files:
+      - db/database-base.db
+      - html
+      - conf
